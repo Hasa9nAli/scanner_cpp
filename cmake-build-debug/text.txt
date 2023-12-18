@@ -1,0 +1,7 @@
+void main(){
+int x=10;
+cout<<x;
+x++;
+x += 10 ;
+y /= 20;
+}
