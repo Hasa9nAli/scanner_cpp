@@ -1,7 +1,60 @@
-void main(){
-int x=10;
-cout<<x;
-x++;
-x += 10 ;
-y /= 20;
+#include<string>
+#include<cstring>
+#include "scannerComponent.h"
+using namespace HasanScanner;
+using namespace std;
+int main() {
+    const int INITIAL_VALUE_STARTING = 0 ;
+    const int NUMBER_OF_STRING_FOR_LINE = 100;
+    const char *const PURPOSE_FOR_WORKING_IN_FILE = "r";
+    const char *PATH_OF_FILE = "text.txt";
+    const char  *EMPTY_SPACE = "";
+    int indexOfPointerToken = 0;
+    char lineOfTextFile[100];
+    FILE* FILE_CPP;
+    FILE_CPP = fopen(PATH_OF_FILE, PURPOSE_FOR_WORKING_IN_FILE);
+    string normalTempStore;
+    string doubleSpecialCharacterTempStore;
+    string stringOfToken[500];
+
+    while (!feof(FILE_CPP)){
+        fgets(lineOfTextFile, NUMBER_OF_STRING_FOR_LINE , FILE_CPP );
+
+        for (int i = INITIAL_VALUE_STARTING; i < strlen(lineOfTextFile); i++) {
+            if (!isCharacterSpace(lineOfTextFile[i]) && !isSpecialCharacter(lineOfTextFile[i]) && lineOfTextFile[i] != '\n') {
+                normalTempStore += lineOfTextFile[i];
+            }
+            else if (isSpecialCharacter(lineOfTextFile[i])) {
+                doubleSpecialCharacterTempStore = lineOfTextFile[i] ;
+                doubleSpecialCharacterTempStore += lineOfTextFile[i + 1];
+                if (isDoubleSpecialCharacter(doubleSpecialCharacterTempStore)) {
+                    stringOfToken[indexOfPointerToken] = doubleSpecialCharacterTempStore;
+                    indexOfPointerToken++;
+                    doubleSpecialCharacterTempStore = EMPTY_SPACE;
+                }
+                else {
+                    stringOfToken[indexOfPointerToken] = normalTempStore;
+                    normalTempStore = EMPTY_SPACE;
+                    indexOfPointerToken++;
+                    stringOfToken[indexOfPointerToken] = lineOfTextFile[i];
+                    indexOfPointerToken++;
+                    doubleSpecialCharacterTempStore = EMPTY_SPACE;
+                }
+            }
+            else {
+                if (!normalTempStore.empty())
+                {
+                    stringOfToken[indexOfPointerToken] = normalTempStore;
+                    normalTempStore = EMPTY_SPACE;
+                    indexOfPointerToken++;
+                }
+            }
+        }
+    }
+
+//    for (int z = INITIAL_VALUE_STARTING; z < indexOfPointerToken; z++)
+//        cout << stringOfToken[z] << "\n";
+//    classificationOfToken(stringOfToken, indexOfPointerToken);
+      cout << indexOfPointerToken;
+    return 0;
 }

@@ -34,10 +34,12 @@ namespace HasanScanner{
     }
 
     bool isKeyword(const string& token){
-        string keywords[22] = {
+        string keywords[] = {
                 "int", "float", "char","long", "long int" , "long long int", "double",
                 "unsigned", "unsigned int" , "signed int", "auto" , "break", "continue",
-                "typeof", "typedef" , "union" , "FILE", "NULL", "main", "void", "cout"
+                "typeof", "typedef" , "union" , "FILE", "NULL", "main", "void",
+                "cout", "namespace", "include","std", "cstring", "string",
+                "const",
         };
         for(const string& keyword: keywords){
             if(keyword == token) return true ;
